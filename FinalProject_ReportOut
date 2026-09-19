@@ -1,0 +1,78 @@
+/*************
+ * 
+ * This class is the report out class, moved from the main method to here
+ */
+package advancedcty;
+import java.awt.Dimension;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+public class FinalProject_ReportOut {
+	public FinalProject_ReportOut() {
+		
+	}
+	
+	private String [][] reportData;
+	private ArrayList<FinalProject_Product> filteredProducts = new ArrayList<FinalProject_Product>();
+	
+	//the reportOut button consumes an arrayList and takes its data into a multidimensional array to pass through the JTable
+	public JScrollPane reportOut(ArrayList<FinalProject_Product> products, String [] reportHeaders, String productType) {
+		filteredProducts.clear();
+		reportData = new String [products.size()][9];
+		DecimalFormat dollars = new DecimalFormat("$#,###.00");
+		if (productType.equals("All Products")) {
+			for (int i = 0; i < products.size(); i++) { //repeats for the length of the array list given
+				filteredProducts.add(products.get(i));
+				reportData[i][0] = products.get(i).getName();
+				reportData[i][1] = products.get(i).getProductType();
+				reportData[i][2] = products.get(i).getCustomerType().getName();
+				reportData[i][3] = products.get(i).getWarehouseType().getWarehouseName();
+				reportData[i][4] = dollars.format(products.get(i).getPurchasePrice());
+				reportData[i][5] = dollars.format(products.get(i).getStockingCost());
+				reportData[i][6] = dollars.format(products.get(i).getSalePrice());
+				reportData[i][7] = Integer.toString(products.get(i).getWarehouseType().getWarehouseVolume());
+				reportData[i][8] = Integer.toString(products.get(i).getCustomerType().getSalesVolume());
+			}
+		}
+		else {
+			int i = 0;
+			int a = 0;
+			while (a < products.size()) { //repeats for the length of the array list given
+				String t = products.get(a).getProductType();
+				if (t.equals(productType)) {
+					filteredProducts.add(products.get(a));
+					reportData[i][0] = products.get(a).getName();
+					reportData[i][1] = products.get(a).getProductType();
+					reportData[i][2] = products.get(a).getCustomerType().getName();
+					reportData[i][3] = products.get(a).getWarehouseType().getWarehouseName();
+					reportData[i][4] = dollars.format(products.get(a).getPurchasePrice());
+					reportData[i][5] = dollars.format(products.get(a).getStockingCost());
+					reportData[i][6] = dollars.format(products.get(a).getSalePrice());
+					reportData[i][7] = Integer.toString(products.get(a).getWarehouseType().getWarehouseVolume());
+					reportData[i][8] = Integer.toString(products.get(a).getCustomerType().getSalesVolume());
+					i++;
+				}
+			a++;
+		}
+		
+	}
+		//initializing and returning a JTable with big enough dimension
+		JTable table = new JTable(reportData, reportHeaders);
+		JScrollPane reportListing = new JScrollPane(table);
+		table.setPreferredScrollableViewportSize(new Dimension(1100,700));
+		table.setFillsViewportHeight(true);
+		return reportListing;
+	}
+	
+	public ArrayList<FinalProject_Product> getReportData() { 
+		try {
+			return filteredProducts;
+		}
+		catch (NullPointerException ex) {
+			throw new NullPointerException();
+		}
+	}
+}
