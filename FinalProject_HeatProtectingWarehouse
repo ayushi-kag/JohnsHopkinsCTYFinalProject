@@ -1,0 +1,17 @@
+package advancedcty;
+/****************
+ * Author: Kagarana, Ayushi
+ * Date: 8/28/2024
+ * Title: AJA MidtermProject
+ * 
+ * Overview: This is the heat protecting warehouse class child of warehouse
+  ********************************/
+public class FinalProject_HeatProtectingWarehouse extends FinalProject_Warehouse{
+	public FinalProject_HeatProtectingWarehouse() {
+		super();
+	}
+	
+	public FinalProject_HeatProtectingWarehouse(String n, int t) {
+		super(n, t);
+	}
+}
