@@ -1,0 +1,17 @@
+package advancedcty;
+/****************
+ * Author: Kagarana, Ayushi
+ * Date: 8/28/2024
+ * Title: AJA FinalProject
+ * 
+ * Overview: This is the low volume customer class
+  ********************************/
+public class FinalProject_LowVolumeCustomer extends FinalProject_Customer{
+	public FinalProject_LowVolumeCustomer() {
+		super();
+	}
+	
+	public FinalProject_LowVolumeCustomer(String n, int v) {
+		super(n, v);
+	}
+}
