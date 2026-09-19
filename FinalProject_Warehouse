@@ -1,0 +1,32 @@
+package advancedcty;
+/****************
+ * Author: Kagarana, Ayushi
+ * Date: 8/28/2024
+ * Title: AJA FinalProject
+ * 
+ * Overview: This is the warehouse class
+  ********************************/
+public abstract class FinalProject_Warehouse {
+	String warehouseName;
+	int warehouseVolume;
+	
+	public FinalProject_Warehouse() {
+		warehouseName = "";
+		warehouseVolume = 0;
+	}
+	
+	public FinalProject_Warehouse(String n, int v) {
+		warehouseName = n;
+		warehouseVolume = v;
+	}
+	
+	public String getWarehouseName() {
+		return warehouseName;
+	}
+	
+	public int getWarehouseVolume() {
+		return warehouseVolume;
+	}
+	
+}
+
