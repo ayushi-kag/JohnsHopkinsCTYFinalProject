@@ -1,0 +1,17 @@
+package advancedcty;
+/****************
+ * Author: Kagarana, Ayushi
+ * Date: 8/28/2024
+ * Title: AJA FinalProject
+ * 
+ * Overview: This is the high volume customer class
+  ********************************/
+public class FinalProject_HighVolumeCustomer extends FinalProject_Customer{
+	public FinalProject_HighVolumeCustomer() {
+		super();
+	}
+	
+	public FinalProject_HighVolumeCustomer(String n, int i) {
+		super(n, i);
+	}
+}
