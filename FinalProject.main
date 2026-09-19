@@ -1,0 +1,610 @@
+package advancedcty;
+/****************
+ * Author: Kagarana, Ayushi
+ * Date: 8/28/2024
+ * Title: AJA FinalProject
+ * 
+ * Overview: This is the main method
+  ********************************/
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+
+import java.io.*;
+public class FinalProject_main {
+	//all these variables are accessed by more than the main method
+		static int productAmnt;
+		static ArrayList<FinalProject_Product> reportListing = new ArrayList<FinalProject_Product>();
+		static JPanel displayProducts = new JPanel();
+		static FinalProject_Customer customer;
+		static int i = 0;;
+		static JFrame mainFrame = new JFrame("Project Inventory Managing System");
+		static JButton returnToMainScreen = new JButton("Return to Main Screen");
+		static JScrollPane reportTable = new JScrollPane();
+		static String [] dropdownOption = {"All Products", "Makeup", "Dress", "Shoe"};
+		static String [] headers = {"Product Name", "Product Type", "Customer Name", "Warehouse Name", "Product Purchase Price", "Product Stocking Cost", "Product Sale Price", "Warehouse Volume", "Customer Sales Volume"};
+		static JComboBox productTypes = new JComboBox(dropdownOption);
+		static JTextField exportDoc = new JTextField(75);
+		static String doc;
+		static JButton exportInfo = new JButton("Export to File");
+		static JLabel exportValid = new JLabel("Export successful!");
+		static JLabel pathnotFoundExceptionMessage = new JLabel("You've entered an invalid path file. Please re-enter a valid path as per your computer.");
+		static JLabel invalidValue = new JLabel("Please re-enter a number greater than zero.");
+		static JLabel exceptionMessage1 = new JLabel ("Please check the text fields for the price values and make sure they include numbers only. "); 
+		static JLabel nullExceptionMessage = new JLabel("It appears that there is at least 1 empty text box or button. Please ensure are values are filled out and hit the button again.");
+		public static void main (String [] args) {
+			FinalProject_ReportOut reporting = new FinalProject_ReportOut();
+			//setting up mainFrame and panel GUI components 
+			mainFrame.setSize(1500,1000);
+			JPanel enterProducts = new JPanel();
+			enterProducts.setSize(1500,1000);
+			mainFrame.add(enterProducts);
+			enterProducts.setVisible(true);
+			displayProducts.setVisible(false);
+			mainFrame.add(displayProducts);
+		  
+			GridBagLayout mainLayout = new GridBagLayout();
+			GridBagConstraints gridbagConstraints = new GridBagConstraints();
+			mainFrame.setLayout(mainLayout);
+			enterProducts.setLayout(mainLayout);
+
+			mainFrame.setVisible(true);
+			
+			//Product name
+			gridbagConstraints.gridx = 0;
+			gridbagConstraints.gridy = 0;
+			JLabel pN = new JLabel ("Please enter the product name for product press enter.");
+			enterProducts.add(pN, gridbagConstraints);
+			gridbagConstraints.gridx = 1;
+			gridbagConstraints.gridy = 0;
+			JTextField productN = new JTextField(10);
+			enterProducts.add(productN, gridbagConstraints);
+			mainFrame.setVisible(true);
+			
+			//Product type
+			gridbagConstraints.gridx = 0;
+			gridbagConstraints.gridy = 1;
+			JLabel pT = new JLabel("Please click the button appropriate to the type of product.");
+			enterProducts.add(pT, gridbagConstraints);
+			ButtonGroup pType = new ButtonGroup();
+			JRadioButton pTM = new JRadioButton("1) Makeup Product");
+			JRadioButton pTD = new JRadioButton("2) Dress Product");
+			JRadioButton pTS = new JRadioButton("3) Shoe Product");
+			pType.add(pTM);
+			pType.add(pTD);
+			pType.add(pTS);
+			gridbagConstraints.gridx = 1;
+			gridbagConstraints.gridy = 1;
+			enterProducts.add(pTM, gridbagConstraints);
+			gridbagConstraints.gridx = 1;
+			gridbagConstraints.gridy = 2;
+			enterProducts.add(pTD, gridbagConstraints);
+			gridbagConstraints.gridx = 1;
+			gridbagConstraints.gridy = 3;
+			enterProducts.add(pTS, gridbagConstraints);
+			mainFrame.setVisible(true);
+			
+			//Customer Sales Volume
+			gridbagConstraints.gridx = 0;
+			gridbagConstraints.gridy = 4;
+			JLabel cS = new JLabel("Please enter the customer sales volume.");
+			enterProducts.add(cS, gridbagConstraints);
+			gridbagConstraints.gridx = 1;
+			gridbagConstraints.gridy = 4;
+			JTextField customerS = new JTextField(10);
+			enterProducts.add(customerS, gridbagConstraints);
+		
+						
+			//Customer name
+			gridbagConstraints.gridx = 0;
+			gridbagConstraints.gridy = 5;
+			JLabel cN = new JLabel("Please enter a name for a potential customer to advertize this product and press enter. ");
+			enterProducts.add(cN, gridbagConstraints);
+			JTextField customerN = new JTextField(10);
+			gridbagConstraints.gridx = 1;
+			gridbagConstraints.gridy = 5;
+			enterProducts.add(customerN, gridbagConstraints);
+			mainFrame.setVisible(true);
+			
+		
+			//Warehouse Type
+			gridbagConstraints.gridx = 0;
+			gridbagConstraints.gridy = 6;
+			JLabel wT = new JLabel("Please click the first button if the product is a delicate item or the second if it is temperature sensitive. ");
+			enterProducts.add(wT, gridbagConstraints);
+			ButtonGroup wType = new ButtonGroup();
+			JRadioButton delicateWarehouse = new JRadioButton("1) Delicate Warehouse");
+			JRadioButton tempWarehouse = new JRadioButton("2) Temperature Sensitive Warehouse");
+			wType.add(delicateWarehouse);
+			wType.add(tempWarehouse);
+			gridbagConstraints.gridx = 1;
+			gridbagConstraints.gridy = 6;
+			enterProducts.add(delicateWarehouse, gridbagConstraints);
+			gridbagConstraints.gridx = 1;
+			gridbagConstraints.gridy = 7;
+			enterProducts.add(tempWarehouse, gridbagConstraints);
+			mainFrame.setVisible(true);
+				
+				
+			//Warehouse name
+			gridbagConstraints.gridx = 0;
+			gridbagConstraints.gridy = 8;
+			JLabel wN = new JLabel("Please type the name of the warehouse and press enter. ");
+			enterProducts.add(wN, gridbagConstraints);
+			JTextField warehouseN = new JTextField(10);
+			gridbagConstraints.gridx = 1;
+			gridbagConstraints.gridy = 8;
+			enterProducts.add(warehouseN, gridbagConstraints);
+			mainFrame.setVisible(true);
+				
+			//Warehouse Volume
+			gridbagConstraints.gridx = 0;
+			gridbagConstraints.gridy = 9;
+			JLabel wV = new JLabel("Please enter the number of products this warehouse can hold. ");
+			enterProducts.add(wV, gridbagConstraints);
+			JTextField warehouseV = new JTextField(10);
+			gridbagConstraints.gridx = 1;
+			gridbagConstraints.gridy = 9;
+			enterProducts.add(warehouseV, gridbagConstraints);
+				
+			//Manufacturing Price
+			gridbagConstraints.gridx = 0;
+			gridbagConstraints.gridy = 10;
+			JLabel pP = new JLabel("Please enter the price in dollars to manufacture this product. ");
+			enterProducts.add(pP, gridbagConstraints);
+			JTextField productP = new JTextField(10);
+			gridbagConstraints.gridx = 1;
+			gridbagConstraints.gridy = 10;
+			enterProducts.add(productP, gridbagConstraints);
+			mainFrame.setVisible(true);
+			
+			//Shelving or stocking cost
+			gridbagConstraints.gridx = 0;
+			gridbagConstraints.gridy = 11;
+			JLabel sC = new JLabel("Please enter the price to keep this product on the shelves in dollars. ");
+			enterProducts.add(sC, gridbagConstraints);
+			JTextField shelvingC = new JTextField(10);
+			gridbagConstraints.gridx = 1;
+			gridbagConstraints.gridy = 11;
+			enterProducts.add(shelvingC, gridbagConstraints);
+			mainFrame.setVisible(true);
+			
+			//Sales Price
+			gridbagConstraints.gridx = 0;
+			gridbagConstraints.gridy = 12;
+			JLabel sP = new JLabel("Please enter the product's selling price in dollars.");
+			enterProducts.add(sP,gridbagConstraints);
+			JTextField salesP = new JTextField(10);
+			gridbagConstraints.gridx = 1;
+			gridbagConstraints.gridy = 12;
+			enterProducts.add(salesP, gridbagConstraints);
+			mainFrame.setVisible(true);
+		
+			
+			//Buttons for entering products and displaying product data
+			gridbagConstraints.gridx = 0;
+			gridbagConstraints.gridy = 13;
+			JButton inputProducts = new JButton("Enter Products");
+			enterProducts.add(inputProducts, gridbagConstraints);
+			
+			gridbagConstraints.gridx = 1;
+			gridbagConstraints.gridy = 13;
+			JButton viewProducts = new JButton("Display Product Data");
+			enterProducts.add(viewProducts, gridbagConstraints);
+			mainFrame.setVisible(true);
+			
+			
+		/** Entering Products Section **/
+		inputProducts.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				displayProducts.setVisible(false);
+				FinalProject_Product product = new FinalProject_Product();
+				FinalProject_Warehouse warehouse = null;
+				//labels printed when an exception is thrown
+				try {
+					
+					//get product name
+					String productName = productN.getText();
+					if (productN.getText() == null) {
+						throw new NullPointerException();
+					}
+					enterProducts.remove(invalidValue);
+					enterProducts.remove(exceptionMessage1);
+					enterProducts.remove(nullExceptionMessage);
+					enterProducts.repaint();
+					
+					//get product type
+					String productType = "";
+					if (pTM.isSelected()) {
+						productType = "Makeup";
+					}
+					else if (pTD.isSelected()) {
+						productType = "Dress";
+					}
+					else if (pTS.isSelected()) {
+						productType = "Shoe";
+					}
+					else {
+						throw new NullPointerException();
+					}
+					enterProducts.remove(invalidValue);
+					enterProducts.remove(exceptionMessage1);
+					enterProducts.remove(nullExceptionMessage);
+					enterProducts.repaint();
+					
+					//get customer name
+					String customerName = customerN.getText();
+					if (customerN.getText() == null) {
+						enterProducts.remove(invalidValue);
+						enterProducts.remove(exceptionMessage1);
+						enterProducts.remove(nullExceptionMessage);
+						enterProducts.repaint();
+						throw new NullPointerException();
+					}
+					
+					
+					//get the customer volume into it and pass name into it
+					int customerVolume = Integer.parseInt(customerS.getText());
+					if (customerS.getText() == null) {
+						enterProducts.remove(invalidValue);
+						enterProducts.remove(exceptionMessage1);
+						enterProducts.remove(nullExceptionMessage);
+						enterProducts.repaint();
+						throw new NullPointerException();
+					}
+					else if (customerVolume < 0) {
+						throw new NumberFormatException();
+					}
+					else if (customerVolume > 100000) {
+						customer = new FinalProject_HighVolumeCustomer(customerName, customerVolume); 
+						product.setCustomerType(customer);
+						enterProducts.remove(invalidValue);
+						enterProducts.remove(exceptionMessage1);
+						enterProducts.remove(nullExceptionMessage);
+						enterProducts.repaint();
+						mainFrame.setVisible(true);
+					}
+					else if (customerVolume < 100000 && customerVolume > 0) { 
+						customer = new FinalProject_LowVolumeCustomer(customerName, customerVolume);
+						product.setCustomerType(customer);
+						enterProducts.remove(invalidValue);
+						enterProducts.remove(exceptionMessage1);
+						enterProducts.remove(nullExceptionMessage);
+						enterProducts.repaint();
+						mainFrame.setVisible(true);
+					}	
+
+					mainFrame.remove(exceptionMessage1);
+					mainFrame.setVisible(true);
+					
+					//get warehouse name
+					String warehouseName = warehouseN.getText();
+					if (warehouseN.getText() == null) {
+						enterProducts.remove(invalidValue);
+						enterProducts.remove(exceptionMessage1);
+						enterProducts.remove(nullExceptionMessage);
+						enterProducts.repaint();
+						throw new NullPointerException();
+					}
+					
+					enterProducts.remove(invalidValue);
+					enterProducts.remove(exceptionMessage1);
+					enterProducts.remove(nullExceptionMessage);
+					enterProducts.repaint();
+					
+					//get warehouse volume
+					int warehouseVolume = Integer.parseInt(warehouseV.getText());
+					if (warehouseV.getText() == null) {
+						enterProducts.remove(invalidValue);
+						enterProducts.remove(exceptionMessage1);
+						enterProducts.remove(nullExceptionMessage);
+						enterProducts.repaint();
+						throw new NullPointerException();
+					}
+					else if (warehouseVolume <= 0 ) {
+						throw new NumberFormatException();
+					}
+					
+					//get warehouse type and pass name into it
+					if (delicateWarehouse.isSelected()) {
+						warehouse = new FinalProject_DelicateWarehouse(warehouseName, warehouseVolume);
+						enterProducts.remove(invalidValue);	
+						mainFrame.setVisible(true);
+						enterProducts.remove(invalidValue);
+						enterProducts.remove(exceptionMessage1);
+						enterProducts.remove(nullExceptionMessage);
+						enterProducts.repaint();
+					}
+					else if (tempWarehouse.isSelected()) {
+						warehouse = new FinalProject_HeatProtectingWarehouse(warehouseName, warehouseVolume);
+						enterProducts.remove(invalidValue);
+						mainFrame.setVisible(true);
+						enterProducts.remove(invalidValue);
+						enterProducts.remove(exceptionMessage1);
+						enterProducts.remove(nullExceptionMessage);
+						enterProducts.repaint();
+					}
+					else {
+						enterProducts.remove(invalidValue);
+						enterProducts.remove(exceptionMessage1);
+						enterProducts.remove(nullExceptionMessage);
+						enterProducts.repaint();
+						throw new NullPointerException();
+					}
+					
+					//get product price
+					double productPrice = Double.parseDouble(productP.getText());
+					if (productP.getText() == null) {
+						throw new NullPointerException();
+					}
+					else if (productPrice <= 0) { //prevents negative or 0 value from being entered
+						throw new NumberFormatException();
+					}
+					enterProducts.remove(invalidValue);
+					enterProducts.remove(exceptionMessage1);
+					enterProducts.remove(nullExceptionMessage);
+					enterProducts.repaint();
+					mainFrame.setVisible(true);
+					
+					//get stocking cost
+					double stockingCost = Double.parseDouble(shelvingC.getText());
+					if (shelvingC.getText() == null) {
+						throw new NullPointerException();
+					}
+					else if (stockingCost <= 0) { //prevents negative or 0 value from being entered
+						throw new InputMismatchException();
+					}
+					invalidValue.setText(null);
+					exceptionMessage1.setText(null);
+					nullExceptionMessage.setText(null);
+					enterProducts.repaint();
+					mainFrame.setVisible(true);
+					
+					//getting sales price
+					double salesPrice = Double.parseDouble(salesP.getText());
+					if (salesP.getText() == null) {
+						enterProducts.remove(invalidValue);
+						enterProducts.remove(exceptionMessage1);
+						enterProducts.remove(nullExceptionMessage);
+						enterProducts.repaint();
+						throw new NullPointerException();
+					}
+					else if (salesPrice <= 0) { //prevents negative or 0 value from being entered
+						throw new InputMismatchException();
+					}
+					invalidValue.setText(null);
+					exceptionMessage1.setText(null);
+					nullExceptionMessage.setText(null);
+					enterProducts.repaint();
+					mainFrame.setVisible(true);
+					
+					
+					//adding a new object to the array list
+					reportListing.add(new FinalProject_Product(productName, productPrice, salesPrice, stockingCost, productType, warehouse, customer));
+				
+					//this empties the text after the correct values are entered. 
+					productN.setText("");
+					pTM.setSelected(false);
+					pTD.setSelected(false);
+					pTS.setSelected(false);
+					customerN.setText("");
+					warehouseN.setText("");
+					delicateWarehouse.setSelected(false);
+					tempWarehouse.setSelected(false);
+					productP.setText("");
+					shelvingC.setText("");
+					salesP.setText("");
+					warehouseV.setText("");
+					customerS.setText("");
+					enterProducts.remove(invalidValue);
+					enterProducts.remove(exceptionMessage1);
+					enterProducts.remove(nullExceptionMessage);
+					enterProducts.repaint();
+					mainFrame.setVisible(true);
+					
+				}
+				//catch statements for when the incorrect values are entered.
+				catch (NumberFormatException ex){
+					gridbagConstraints.gridx = 0;
+					gridbagConstraints.gridy = 14;
+					enterProducts.remove(invalidValue);
+					enterProducts.remove(nullExceptionMessage);
+					exceptionMessage1.setText("Please check the text fields for the price and volume values and make sure they include numbers above zero only.");
+					enterProducts.add(exceptionMessage1, gridbagConstraints);
+					enterProducts.repaint();
+					mainFrame.setVisible(true);
+					
+				}
+				catch (InputMismatchException ex) {
+					invalidValue.setText("Please make sure the numerical fields have been filled with numbers and that the ones for volume are in whole numbers.");
+					gridbagConstraints.gridx = 0;
+					gridbagConstraints.gridy = 15;
+					enterProducts.remove(nullExceptionMessage);
+					enterProducts.remove(exceptionMessage1);
+					enterProducts.add(invalidValue, gridbagConstraints);
+					enterProducts.repaint();
+					mainFrame.setVisible(true);
+				}
+				catch (NullPointerException ex) {
+					gridbagConstraints.gridx = 0;
+					gridbagConstraints.gridy = 16;
+					enterProducts.remove(viewProducts);
+					enterProducts.remove(exceptionMessage1);
+					nullExceptionMessage.setText("It appears that there is at least 1 empty text box or button. Please ensure are values are filled out and hit the button again.");
+					enterProducts.add(nullExceptionMessage, gridbagConstraints);
+					enterProducts.repaint();
+					mainFrame.setVisible(true);
+				}
+				catch(Exception ex) {
+					//enter JLabel for exception
+				}
+		}	
+	});	
+		
+		
+			
+		//view products panel section
+		viewProducts.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				enterProducts.setVisible(false);
+				displayProducts.setVisible(false);
+				displayProducts.setVisible(true);
+				displayProducts.setSize(1300,1000);
+				GridBagConstraints constraints = new GridBagConstraints();
+				//setting up the layout, headers, and getting the JTable in a scrollpane from the reportOut method
+				GridBagLayout layout = new GridBagLayout();
+				reportTable = reporting.reportOut(reportListing, headers, "All Products");
+				displayProducts.setLayout(layout);
+				constraints.gridwidth = 11;
+				constraints.gridheight = 11;
+				constraints.gridx = 0;
+				constraints.gridy = 0;
+				displayProducts.add(reportTable, constraints);
+				
+				displayProducts.setVisible(true);
+				mainFrame.setVisible(true);
+				constraints.gridwidth = 1;
+				constraints.gridheight = 1;
+				constraints.gridx = 0;
+				constraints.gridy = 11;
+				productTypes.setSelectedIndex(0);
+				displayProducts.add(productTypes, constraints);
+				mainFrame.setVisible(true);
+				constraints.gridx = 0;
+				constraints.gridy = 12;
+				displayProducts.add(returnToMainScreen, constraints);
+				mainFrame.setVisible(true);
+				
+				constraints.gridx = 1;
+				constraints.gridy = 11;
+				displayProducts.add(exportInfo, constraints);
+				doc = "/Users/musickitty/eclipse-workspace/java-cty/Intro_to_Java_projects/src/advancedcty/finalProject.csv";
+				exportDoc.setText(doc);
+				constraints.gridx = 1;
+				constraints.gridy = 12;
+				displayProducts.add(exportDoc, constraints);
+				mainFrame.setVisible(true);
+				
+				productTypes.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {						
+						displayProducts.removeAll();
+						int type = productTypes.getSelectedIndex();
+						switch(type) {
+						case 0: reportTable = reporting.reportOut(reportListing, headers, "All Products");
+								break;
+						case 1: reportTable = reporting.reportOut(reportListing, headers, "Makeup");
+								break;
+						case 2: reportTable = reporting.reportOut(reportListing, headers, "Dress");
+								break;
+						case 3: reportTable = reporting.reportOut(reportListing, headers, "Shoe");
+								break;
+						}
+						constraints.gridwidth = 11;
+						constraints.gridheight = 11;
+						constraints.gridx = 0;
+						constraints.gridy = 0;
+						displayProducts.add(reportTable, constraints);
+						
+						displayProducts.setVisible(true);
+						mainFrame.setVisible(true);
+						constraints.gridwidth = 1;
+						constraints.gridheight = 1;
+						constraints.gridx = 0;
+						constraints.gridy = 11;
+						displayProducts.add(productTypes, constraints);
+						mainFrame.setVisible(true);
+						constraints.gridx = 0;
+						constraints.gridy = 12;
+						displayProducts.add(returnToMainScreen, constraints);
+						mainFrame.setVisible(true);
+						
+						constraints.gridx = 1;
+						constraints.gridy = 11;
+						displayProducts.add(exportInfo, constraints);
+						doc = "/Users/musickitty/eclipse-workspace/java-cty/Intro_to_Java_projects/src/advancedcty/finalProject.csv";
+						exportDoc.setText(doc);
+						constraints.gridx = 1;
+						constraints.gridy = 12;
+						displayProducts.add(exportDoc, constraints);
+						mainFrame.setVisible(true);
+						
+					}
+				});
+				
+				//exporting button
+				exportInfo.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						ArrayList<FinalProject_Product> filteredData = reporting.getReportData();
+						BufferedWriter out;
+						try {
+							out = new BufferedWriter(
+									new FileWriter(exportDoc.getText()));
+							out.write(headers[0] + "," + headers[1] + "," + headers[2] + "," + headers[3] + "," + headers[4] + "," + headers[5] + "," + headers[6] + "," + headers[7] + "," + headers[8] + "\n");
+							for (int index = 0; index < filteredData.size(); index++) {
+								out.write(filteredData.get(index).getName() + "," 
+										+ filteredData.get(index).getProductType() + "," 
+										+ filteredData.get(index).getCustomerType().getName() + "," 
+										+ filteredData.get(index).getWarehouseType().getWarehouseName() + "," 
+										+ filteredData.get(index).getPurchasePrice() + "," 
+										+ filteredData.get(index).getStockingCost()+ "," 
+										+ filteredData.get(index).getSalePrice() + "," 
+										+ filteredData.get(index).getWarehouseType().getWarehouseVolume() + ","
+										+ filteredData.get(index).getCustomerType().getSalesVolume() + "\n");
+							}
+							
+							out.close();
+							gridbagConstraints.gridx = 1;
+							gridbagConstraints.gridy = 13;
+							displayProducts.remove(pathnotFoundExceptionMessage);
+							displayProducts.add(exportValid, gridbagConstraints);
+							displayProducts.repaint();
+							mainFrame.setVisible(true);
+						} catch (FileNotFoundException ex) {
+							gridbagConstraints.gridx = 1;
+							gridbagConstraints.gridy = 14;
+							displayProducts.remove(exportValid);
+							displayProducts.add(pathnotFoundExceptionMessage, gridbagConstraints);
+							displayProducts.repaint();
+							mainFrame.setVisible(true);
+						}
+						catch (IOException ex){
+							ex.printStackTrace();
+						}
+						
+					}
+				}); 
+			 
+				//return to main screen button
+				returnToMainScreen.addActionListener(new ActionListener () {
+					public void actionPerformed(ActionEvent e) {
+						enterProducts.setVisible(true);
+						displayProducts.setVisible(false);
+						displayProducts.removeAll();
+						mainFrame.setVisible(true);
+					}
+				});
+			}
+		});
+		
+		}
+
+	
+}
+	
