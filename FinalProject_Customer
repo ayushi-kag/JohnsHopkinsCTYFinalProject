@@ -1,0 +1,38 @@
+package advancedcty;
+/****************
+ * Author: Kagarana, Ayushi
+ * Date: 8/28/2024
+ * Title: AJA FinalProject
+ * 
+ * Overview: This is the customer parent class
+  ********************************/
+public class FinalProject_Customer {
+	String name;
+	int salesVolume;
+	public FinalProject_Customer() {
+		name = "";
+		salesVolume = 0;
+	}
+	
+	public FinalProject_Customer(String n, int v) {
+		name = n;
+		salesVolume = v;
+	}
+	
+	public void setName(String n) {
+		name = n;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	//new sales volume variable
+	public void setSalesVolume(int v) {
+		salesVolume = v;
+	}
+	
+	public int getSalesVolume() {
+		return salesVolume;
+	}
+}
