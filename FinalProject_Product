@@ -1,0 +1,97 @@
+package advancedcty;
+/****************
+ * Author: Kagarana, Ayushi
+ * Date: 8/28/2024
+ * Title: AJA FinalProject
+ * 
+ * Overview: This is the product class
+  ********************************/
+public class FinalProject_Product {
+	String name;
+	double purchasePrice;
+	double salePrice;
+	double stockingCost;
+	String productType;
+	FinalProject_Warehouse warehouse;
+	FinalProject_Customer customerType;
+	
+	//Constructors
+	public FinalProject_Product() {
+		name = "";
+		purchasePrice = 0;
+		salePrice = 0;
+		stockingCost = 0;
+		productType = "";
+		warehouse = null;
+		customerType = null;
+	}
+	
+	public FinalProject_Product(String name, double purchasePrice, double salePrice, double stockingCost, String productType, FinalProject_Warehouse warehouse, FinalProject_Customer customer) {
+		this.name = name;
+		this.purchasePrice = purchasePrice;
+		this.salePrice = salePrice;
+		this.stockingCost = stockingCost;
+		this.productType = productType;
+		this.warehouse = warehouse; 
+		customerType = customer;
+	}
+	
+	//Getters and Setters
+	public void setName(String n) {
+		name = n;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setPurchasePrice(double p) {
+		purchasePrice = p;
+	}
+	
+	public double getPurchasePrice() {
+		return salePrice;
+	}
+	
+	public void setSalePrice(double p) {
+		salePrice = p;
+	}
+	
+	public double getSalePrice() {
+		return salePrice;
+	}
+	
+	public void setStockingCost(double c) {
+		stockingCost = c;
+	}
+	
+	public double getStockingCost() {
+		return stockingCost;
+	}
+	
+	public void setProductType(String productType) {
+		this.productType = productType;
+	}
+	
+	public String getProductType() {
+		return productType;
+	}
+	
+	public void setWarehouseType(FinalProject_Warehouse warehouse) {
+		this.warehouse = warehouse;
+	}
+	
+	public FinalProject_Warehouse getWarehouseType() {
+		return warehouse;
+	}
+	
+	public void setCustomerType(FinalProject_Customer customer) { 
+		customerType = customer;
+	}
+	
+	public FinalProject_Customer getCustomerType() {
+		return customerType;
+	}
+
+	
+}
