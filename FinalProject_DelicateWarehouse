@@ -1,0 +1,17 @@
+package advancedcty;
+/****************
+ * Author: Kagarana, Ayushi
+ * Date: 8/28/2024
+ * Title: AJA FinalProject
+ * 
+ * Overview: This is the delicate warehouse class child of warehouse
+  ********************************/
+public class FinalProject_DelicateWarehouse extends FinalProject_Warehouse{
+	public FinalProject_DelicateWarehouse() {
+		super();
+	}
+	
+	public FinalProject_DelicateWarehouse(String n, int x) {
+		super(n, x);
+	}
+}
